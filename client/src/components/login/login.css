@@ -43,18 +43,36 @@
     margin-right: 10px; /* Adds some space on the right */
   }
   
-  .login-btn {
-    width: 100%;
+  .button-group {
+    display: flex; /* Use flexbox to arrange buttons in a row */
+    justify-content: space-between; /* Space out buttons evenly */
+    margin-top: 10px; /* Add some space above the button group */
+  }
+ 
+  .login-btn, .register-button {
     padding: 12px;
-    background-color: #00b862;
-    color: white;
     border: none;
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
+    background-color: #00b862;
+    color: white;    
+    flex: 1; /* Make buttons take equal space */
   }
   
   .login-btn:hover {
     background-color: #008035;
   }
   
+  .register-button {
+    margin-left: 10px; /* Add some space between the buttons */
+    background-color: #00b862; /* Green background */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 15px; /* Padding */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.register-button:hover {
+    background-color: #008035; /* Darker green on hover */
+}
