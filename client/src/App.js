@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import Login from './components/login/login';
 
 function App() {
   return (
@@ -16,8 +17,11 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
-        </a>
+        </a>        
       </header>
+      <div>
+        <Login />
+      </div>
     </div>
   );
 }
