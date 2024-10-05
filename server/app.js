@@ -6,7 +6,10 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 5000;
 const authRoutes = require('./routes/authRoutes');
+const sequelize = require('./config/database'); 
+const User = require('./models/user'); 
 const authenticateToken = require('./middleware/authMiddleware'); // Auth middleware
+
 
 // Imported Middleware
 app.use(cors());
@@ -18,6 +21,23 @@ app.use((err, req, res, next) => {
     res.status(500).send({ message: 'Something went wrong!' });
   });
 
+// Test database connection
+sequelize.authenticate()
+  .then(() => {
+    console.log('Database connected successfully!');
+  })
+  .catch(err => {
+    console.error('Database connection error:', err);
+  });
+
+// Sync models with the database
+sequelize.sync()
+  .then(() => {
+    console.log('Database synced successfully!');
+  })
+  .catch(err => {
+    console.error('Database sync error:', err);
+  });
 
 // Routing
 app.use('/api/auth', authRoutes); 
