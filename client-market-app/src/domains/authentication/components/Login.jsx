@@ -6,8 +6,7 @@ import logo from '../../../assets/logo-market-app.png';
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [password, setPassword] = useState('');  
   const [errorKey, setErrorKey] = useState(0);
   const [errors, setErrors] = useState([]);
 
@@ -29,25 +28,25 @@ function Login() {
         // Redirect to dashboard
         navigate('/dashboard');
       } else {
-        setErrorMessage(data.message || 'Login failed');
+        setErrors([data.message || 'Login failed']);
         setErrorKey(prevKey => prevKey + 1);
       }
     } catch (error) {
       console.error('Error during login:', error);
-      setErrorMessage('An error occurred during login');
+      setErrors(['An error occurred during login']);
       setErrorKey(prevKey => prevKey + 1);
     }
   };
 
-  // Clear error message after 5 seconds
+  // Remove errors after timer ends
   useEffect(() => {
-    if (errorMessage) {
-      const timer = setTimeout(() => {
-        setErrorMessage('');
-      }, 12000);
+    if (errors.length > 0) {
+      const timer = setTimeout(() => {        
+        setErrors([]);
+      }, 10000);
       return () => clearTimeout(timer);
     }
-  }, [errorMessage]);
+  }, [errors]);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -68,6 +67,7 @@ function Login() {
         } else {
           setErrors([data.message || 'An error occurred during registration']);
         }
+        setErrorKey(prevKey => prevKey + 1);
       } else {
         // Handle successful registration
         console.log('Registration successful');
@@ -76,6 +76,7 @@ function Login() {
     } catch (error) {
       console.error('Registration error:', error);
       setErrors(['An unexpected error occurred. Please try again.']);
+      setErrorKey(prevKey => prevKey + 1);
     }
   };
 
@@ -107,13 +108,8 @@ function Login() {
           </div>
         </div>
         <div className="error-message-container">
-          {errorMessage && (
-            <div key={errorKey} className="error-message">
-              {errorMessage}
-            </div>
-          )}
           {errors.map((error, index) => (
-            <div key={index} className="error-message">
+            <div key={`${errorKey}-${index}`} className="error-message">
               {error}
             </div>
           ))}
