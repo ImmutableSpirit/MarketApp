@@ -15,7 +15,9 @@ const authenticateToken = (req, res, next) => {
 };
 
 const validateRegistration = [
-  body('email').trim().not().isEmpty().withMessage('Email is required'),
+  body('email')
+  .isEmail().withMessage('Please enter a valid email address')
+  .normalizeEmail(),
   body('password')
     .trim()
     .not().isEmpty().withMessage('Password is required')

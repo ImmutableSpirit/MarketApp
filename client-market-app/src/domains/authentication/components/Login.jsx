@@ -9,6 +9,8 @@ function Login() {
   const [password, setPassword] = useState('');  
   const [errorKey, setErrorKey] = useState(0);
   const [errors, setErrors] = useState([]);
+  const [successMessages, setSuccessMessages] = useState([]);
+  const [successKey, setSuccessKey] = useState(0);
 
   const handleLogin = async () => {
     try {
@@ -48,6 +50,15 @@ function Login() {
     }
   }, [errors]);
 
+  useEffect(() => {
+    if (successMessages.length > 0) {
+      const timer = setTimeout(() => {
+        setSuccessMessages([]);
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessages]);
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setErrors([]); 
@@ -69,9 +80,11 @@ function Login() {
         }
         setErrorKey(prevKey => prevKey + 1);
       } else {
-        // Handle successful registration
-        console.log('Registration successful');
-        // Redirect or update UI as needed
+        setSuccessMessages(['Registration successful! Please log in.']);
+        setSuccessKey(prevKey => prevKey + 1);
+        setEmail('');
+        setPassword('');
+        console.log('Registration successful');        
       }
     } catch (error) {
       console.error('Registration error:', error);
@@ -86,7 +99,13 @@ function Login() {
         <img src={logo} alt="Logo" className="login-logo" />
       </div>
       <div className="content-grid">
-        <div className="grid-item"></div> {/* Empty left column */}
+        <div className="success-message-container">
+          {successMessages.map((message, index) => (
+            <div key={`${successKey}-${index}`} className="success-message">
+              {message}
+            </div>
+          ))}
+        </div>
         <div className="login-panel">
           <h1>Welcome</h1>
           <p>Sign In to Market App</p>
