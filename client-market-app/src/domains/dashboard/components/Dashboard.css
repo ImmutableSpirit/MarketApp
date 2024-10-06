@@ -1,0 +1,35 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #e0f2f1;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .welcome-message {
+    color: #00695c;
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-panel {
+    flex-grow: 1;
+    background-color: #00695c;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* In case content exceeds panel height */
+  }
+  
+  /* Ensure the body and html take full height */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* If you're using a CSS module or a global CSS file, add these styles there */
+  #root {
+    height: 100%;
+  }
