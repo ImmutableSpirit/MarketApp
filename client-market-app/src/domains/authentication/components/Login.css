@@ -1,4 +1,19 @@
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #0e0d0f;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .login-container {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,23 +22,41 @@
   }
 
   .login-panel {
+    grid-column: 2;
     background-color: #0e0d0f;
-    border: 2px solid #00897b; 
+    border: 2px solid #00897b;
     border-radius: 8px;
-    box-shadow: 20 0 90px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 90px rgba(0, 0, 0, 0.5);
     padding: 40px;
-    width: 300px;
-    text-align: center;    
-    min-height: 400px;
+    text-align: center;
     display: flex;
     flex-direction: column;
   }
 
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 400px 1fr;
+    gap: 20px;
+    padding: 20px;
+    flex-grow: 1;
+  }
+
+  .content-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    max-width: 1200px; /* Limit maximum width for very wide screens */
+    margin: 0 auto; /* Center the content container */
+  }
+
   .logo-container {
-    margin-bottom: 20px; /* Space between logo and login panel */
-    width: 300px; /* Match the width of your login panel */
+    width: 100%;
     display: flex;
     justify-content: center;
+    padding: 20px 0;
   }
 
   .login-logo {
@@ -79,30 +112,75 @@
   }
 
   .error-message-container {
-    height: 60px; 
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    grid-column: 3;
+    align-self: start;
+    overflow-y: auto;
+    max-height: 400px; /* Adjust as needed */
+    max-width: 360px;
   }
-
+  
   .error-message {
     background-color: #ff4444;
     color: white;
     padding: 10px;
     border-radius: 5px;
-    margin-bottom: 15px;
     text-align: center;
     font-weight: bold;
-    animation: flashAnimation 0.5s ease-in-out;
-    width: 100%;
+    margin-bottom: 5px;
+    word-wrap: break-word;
+    animation: flashError 0.5s ease-in-out;
   }
 
-  @keyframes flashAnimation {
+  /* Media query for smaller screens */
+  @media (max-width: 768px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .login-panel,
+    .error-message-container {
+      grid-column: 1;
+    }
+  
+    .error-message-container {
+      margin-top: 20px;
+    }
+  }  
+
+  @keyframes flashError {
     0%, 50%, 100% {
       background-color: #ff4444;
     }
     25%, 75% {
-      background-color: #ff8888;
+      background-color: #ff9797;
+    }
+  }
+
+  .success-message-container {
+    grid-column: 1;
+    align-self: start;
+    justify-self: end;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .success-message {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 5px;
+    word-wrap: break-word;
+    animation: flashAnimation 0.5s ease-in-out;
+  }
+
+  @keyframes flashSuccess {
+    0%, 50%, 100% {
+      background-color: #4CAF50;
+    }
+    25%, 75% {
+      background-color: #26fa2e;
     }
   }

@@ -6,9 +6,11 @@ import logo from '../../../assets/logo-market-app.png';
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [password, setPassword] = useState('');  
   const [errorKey, setErrorKey] = useState(0);
+  const [errors, setErrors] = useState([]);
+  const [successMessages, setSuccessMessages] = useState([]);
+  const [successKey, setSuccessKey] = useState(0);
 
   const handleLogin = async () => {
     try {
@@ -28,27 +30,38 @@ function Login() {
         // Redirect to dashboard
         navigate('/dashboard');
       } else {
-        setErrorMessage(data.message || 'Login failed');
+        setErrors([data.message || 'Login failed']);
         setErrorKey(prevKey => prevKey + 1);
       }
     } catch (error) {
       console.error('Error during login:', error);
-      setErrorMessage('An error occurred during login');
+      setErrors(['An error occurred during login']);
       setErrorKey(prevKey => prevKey + 1);
     }
   };
 
-  // Clear error message after 5 seconds
+  // Remove errors after timer ends
   useEffect(() => {
-    if (errorMessage) {
-      const timer = setTimeout(() => {
-        setErrorMessage('');
-      }, 12000);
+    if (errors.length > 0) {
+      const timer = setTimeout(() => {        
+        setErrors([]);
+      }, 10000);
       return () => clearTimeout(timer);
     }
-  }, [errorMessage]);
+  }, [errors]);
 
-  const handleRegister = async () => {
+  useEffect(() => {
+    if (successMessages.length > 0) {
+      const timer = setTimeout(() => {
+        setSuccessMessages([]);
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessages]);
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setErrors([]); 
     try {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
@@ -59,58 +72,67 @@ function Login() {
       });
 
       const data = await response.json();
-
-      if (response.ok) {        
-        console.log('Registration successful:', data);
-        // You can add additional logic here, such as:
-        // - Showing a success message to the user
-        // - Automatically logging in the user
-        // - Redirecting to a different page
-      } else {        
-        setErrorMessage(data.message || 'Registration failed');
+      if (!response.ok) {
+        if (data.errors) {
+          setErrors(data.errors.map(error => error.msg));
+        } else {
+          setErrors([data.message || 'An error occurred during registration']);
+        }
         setErrorKey(prevKey => prevKey + 1);
-        console.error('Registration failed:', data); // todo: log with Morgan
-        // Handle registration errors (e.g., display error message to user)
+      } else {
+        setSuccessMessages(['Registration successful! Please log in.']);
+        setSuccessKey(prevKey => prevKey + 1);
+        setEmail('');
+        setPassword('');
+        console.log('Registration successful');        
       }
     } catch (error) {
-      setErrorMessage('Registration failed');
+      console.error('Registration error:', error);
+      setErrors(['An unexpected error occurred. Please try again.']);
       setErrorKey(prevKey => prevKey + 1);
-      console.error('Error during registration:', error);
-      // Handle network errors or other exceptions
     }
   };
 
   return (
-    <div className="login-container">      
-      <div className="login-panel">
-        <h1>Welcome</h1>
-        <p>Sign In to Market App</p>
-        <div className="error-message-container">
-          {errorMessage && (
-            <div key={errorKey} className="error-message">
-              {errorMessage}
-            </div>
-          )}
-        </div>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <div className="button-container">
-          <button className="login-button" onClick={handleLogin}>Login</button>
-          <button className="register-button" onClick={handleRegister}>Register</button>
-        </div>
-      </div>
+    <div className="page-container">
       <div className="logo-container">
         <img src={logo} alt="Logo" className="login-logo" />
+      </div>
+      <div className="content-grid">
+        <div className="success-message-container">
+          {successMessages.map((message, index) => (
+            <div key={`${successKey}-${index}`} className="success-message">
+              {message}
+            </div>
+          ))}
+        </div>
+        <div className="login-panel">
+          <h1>Welcome</h1>
+          <p>Sign In to Market App</p>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <div className="button-container">
+            <button className="login-button" onClick={handleLogin}>Login</button>
+            <button className="register-button" onClick={handleRegister}>Register</button>
+          </div>
+        </div>
+        <div className="error-message-container">
+          {errors.map((error, index) => (
+            <div key={`${errorKey}-${index}`} className="error-message">
+              {error}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

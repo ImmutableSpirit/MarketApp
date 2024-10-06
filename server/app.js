@@ -49,9 +49,9 @@ app.get('/', (req, res) => {
 });
 
 // Example of a protected route (requires valid JWT)
-app.get('/api/users', authenticateToken, (req, res) => {    
-    res.json({ message: 'protected user route!', user: req.user });
-  });
+//app.get('/api/users', authenticateToken, (req, res) => {    
+//    res.json({ message: 'protected user route!', user: req.user });
+//  });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
