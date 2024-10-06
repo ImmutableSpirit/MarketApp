@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const app = express();
@@ -14,6 +15,7 @@ const authenticateToken = require('./middleware/authMiddleware'); // Auth middle
 // Imported Middleware
 app.use(cors());
 app.use(express.json());
+app.use(morgan('combined'));
 
 // Error handling
 app.use((err, req, res, next) => {

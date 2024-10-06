@@ -1,11 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const user = require('../models/user');
+const User = require('../models/user');
 
 exports.registerUser = async (email, password) => {
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await user.create({ email, password: hashedPassword });
+        const user = await User.create({ email, password: hashedPassword });
         return user; // Return the created user
       } catch (err) {
         console.error('User registration error:', err);
