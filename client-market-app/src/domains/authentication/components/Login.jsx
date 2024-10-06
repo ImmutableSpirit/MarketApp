@@ -9,6 +9,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [errorKey, setErrorKey] = useState(0);
+  const [errors, setErrors] = useState([]);
 
   const handleLogin = async () => {
     try {
@@ -48,7 +49,9 @@ function Login() {
     }
   }, [errorMessage]);
 
-  const handleRegister = async () => {
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setErrors([]); 
     try {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
@@ -59,58 +62,62 @@ function Login() {
       });
 
       const data = await response.json();
-
-      if (response.ok) {        
-        console.log('Registration successful:', data);
-        // You can add additional logic here, such as:
-        // - Showing a success message to the user
-        // - Automatically logging in the user
-        // - Redirecting to a different page
-      } else {        
-        setErrorMessage(data.message || 'Registration failed');
-        setErrorKey(prevKey => prevKey + 1);
-        console.error('Registration failed:', data); // todo: log with Morgan
-        // Handle registration errors (e.g., display error message to user)
+      if (!response.ok) {
+        if (data.errors) {
+          setErrors(data.errors.map(error => error.msg));
+        } else {
+          setErrors([data.message || 'An error occurred during registration']);
+        }
+      } else {
+        // Handle successful registration
+        console.log('Registration successful');
+        // Redirect or update UI as needed
       }
     } catch (error) {
-      setErrorMessage('Registration failed');
-      setErrorKey(prevKey => prevKey + 1);
-      console.error('Error during registration:', error);
-      // Handle network errors or other exceptions
+      console.error('Registration error:', error);
+      setErrors(['An unexpected error occurred. Please try again.']);
     }
   };
 
   return (
-    <div className="login-container">      
-      <div className="login-panel">
-        <h1>Welcome</h1>
-        <p>Sign In to Market App</p>
+    <div className="page-container">
+      <div className="logo-container">
+        <img src={logo} alt="Logo" className="login-logo" />
+      </div>
+      <div className="content-grid">
+        <div className="grid-item"></div> {/* Empty left column */}
+        <div className="login-panel">
+          <h1>Welcome</h1>
+          <p>Sign In to Market App</p>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <div className="button-container">
+            <button className="login-button" onClick={handleLogin}>Login</button>
+            <button className="register-button" onClick={handleRegister}>Register</button>
+          </div>
+        </div>
         <div className="error-message-container">
           {errorMessage && (
             <div key={errorKey} className="error-message">
               {errorMessage}
             </div>
           )}
+          {errors.map((error, index) => (
+            <div key={index} className="error-message">
+              {error}
+            </div>
+          ))}
         </div>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <div className="button-container">
-          <button className="login-button" onClick={handleLogin}>Login</button>
-          <button className="register-button" onClick={handleRegister}>Register</button>
-        </div>
-      </div>
-      <div className="logo-container">
-        <img src={logo} alt="Logo" className="login-logo" />
       </div>
     </div>
   );
