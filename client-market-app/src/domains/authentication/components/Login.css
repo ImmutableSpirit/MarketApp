@@ -1,0 +1,75 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000000; /* Light teal background */
+  }
+
+  .login-panel {
+    background-color: #000000;
+    border: 2px solid #00897b; /* Teal border */
+    border-radius: 8px;
+    padding: 40px;
+    width: 300px;
+    text-align: center;    
+  }
+
+  .logo-container {
+    margin-bottom: 20px; /* Space between logo and login panel */
+    width: 300px; /* Match the width of your login panel */
+    display: flex;
+    justify-content: center;
+  }
+
+  .login-logo {
+    width: 80%; /* Adjust this value to scale the logo as needed */
+    max-width: 240px; /* Ensures the logo doesn't get too large */
+    height: auto; /* Maintains aspect ratio */
+  }
+  
+  h1 {
+    color: #00897b;
+    margin-bottom: 20px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #00897b;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #000000;
+    box-sizing: border-box;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .login-button, .register-button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .login-button {
+    background-color: #00897b;
+    color: white;
+  }
+  
+  .register-button {
+    background-color: #00897b;
+    color: white;
+  }
+  
+  .login-button:hover, .register-button:hover {
+    opacity: 0.9;
+  }

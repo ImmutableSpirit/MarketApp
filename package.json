@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server/app.js",
-    "client": "npm start --prefix client"
+    "client": "cd client-market-app && npm run dev"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,10 @@
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.0",
     "pg-hstore": "^2.3.4",
+    "react-router-dom": "^6.26.2",
     "sequelize": "^6.37.4"
+  },
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "^4.6.2"
   }
 }
