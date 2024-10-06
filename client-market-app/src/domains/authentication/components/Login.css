@@ -3,16 +3,20 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #000000; /* Light teal background */
+    background-color: #0e0d0f; 
   }
 
   .login-panel {
-    background-color: #000000;
-    border: 2px solid #00897b; /* Teal border */
+    background-color: #0e0d0f;
+    border: 2px solid #00897b; 
     border-radius: 8px;
+    box-shadow: 20 0 90px rgba(0, 0, 0, 0.5);
     padding: 40px;
     width: 300px;
     text-align: center;    
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
   }
 
   .logo-container {
@@ -72,4 +76,33 @@
   
   .login-button:hover, .register-button:hover {
     opacity: 0.9;
+  }
+
+  .error-message-container {
+    height: 60px; 
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .error-message {
+    background-color: #ff4444;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+    animation: flashAnimation 0.5s ease-in-out;
+    width: 100%;
+  }
+
+  @keyframes flashAnimation {
+    0%, 50%, 100% {
+      background-color: #ff4444;
+    }
+    25%, 75% {
+      background-color: #ff8888;
+    }
   }
