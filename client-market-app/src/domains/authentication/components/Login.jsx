@@ -12,7 +12,25 @@ function Login() {
   const [successMessages, setSuccessMessages] = useState([]);
   const [successKey, setSuccessKey] = useState(0);
 
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const clearMessages = () => {
+    setErrors([]);
+    setSuccessMessages([]);
+  }
+
   const handleLogin = async () => {
+    clearMessages();    
+
+    if (!isValidEmail(email)) {
+      setErrors(['Please enter a valid email address']);
+      setErrorKey(prevKey => prevKey + 1);
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
@@ -61,7 +79,14 @@ function Login() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setErrors([]); 
+    clearMessages();
+    
+    if (!isValidEmail(email)) {
+      setErrors(['Please enter a valid email address']);
+      setErrorKey(prevKey => prevKey + 1);
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
@@ -82,7 +107,7 @@ function Login() {
       } else {
         setSuccessMessages(['Registration successful! Please log in.']);
         setSuccessKey(prevKey => prevKey + 1);
-        setEmail('');
+        
         setPassword('');
         console.log('Registration successful');        
       }
