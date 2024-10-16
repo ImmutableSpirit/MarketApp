@@ -1,35 +1,61 @@
-.dashboard-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #e0f2f1;
-    padding: 20px;
-    box-sizing: border-box;
-  }
+.dashboard {
+  display: grid;
+  grid-template-areas: 
+    "header header"
+    "main sidebar";
+  grid-template-rows: 50px 1fr;
+  grid-template-columns: 1fr 250px;
+  height: 100vh; /* This ensures the dashboard takes up the full viewport height */
+  overflow: hidden; /* This prevents any content from overflowing */
+}
+
+.header {
+  grid-area: header;
+  background-color: #2b2b2b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border: 2px solid #07ddaf;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  background-color: #2b2b2b;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  border: 1px solid #07ddaf;
+}
+
+.mainContent {
+  grid-area: main;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 20px;
+  border: 2px solid #dd07c1;
+  border-radius: 5px;
   
-  .welcome-message {
-    color: #00695c;
-    margin-bottom: 20px;
-  }
-  
-  .dashboard-panel {
-    flex-grow: 1;
-    background-color: #00695c;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow-y: auto; /* In case content exceeds panel height */
-  }
-  
-  /* Ensure the body and html take full height */
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* If you're using a CSS module or a global CSS file, add these styles there */
-  #root {
-    height: 100%;
-  }
+}
+
+.priceInfo {
+  margin-left: 20px;
+  margin-bottom: 10px;
+
+}
+
+.mainContent > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.chartWrapper {
+  flex: 1;
+  position: relative;
+  width: 100%;  
+  height: 400px;  
+}
