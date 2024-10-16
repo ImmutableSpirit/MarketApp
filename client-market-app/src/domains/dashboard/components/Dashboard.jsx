@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import './Dashboard.css';
+import Chart from './Chart';
 
 const Dashboard = () => {
+  const [userEmail, setUserEmail] = useState("example@email.com");
   const [price, setPrice] = useState(null);
   const [socket, setSocket] = useState(null);
   const ticker = 'EUR/USD'; // Example ticker
@@ -63,10 +65,28 @@ const Dashboard = () => {
     };
   }, []);
 
-  return (
-    <div>
-      <h2>{ticker} Price: {price || 'Loading...'}</h2>
-    </div>
+  return (    
+    <div className="dashboard">
+     <header className="header">
+       <div className="logo">MarketApp</div>
+       <div className="userInfo">Signed in as {userEmail}</div>
+     </header>
+     <aside className="sidebar">
+       {/* Sidebar content */}
+       <h2>Watchlist</h2>
+       <p>Add your tickers here.</p>
+     </aside>
+     <main className="mainContent">      
+      <div>
+        <div className="priceInfo">
+          <h2>{ticker} Price: {price || 'Loading...'}</h2>
+        </div>
+        <div className="chartWrapper">
+          <Chart />
+        </div>
+      </div>
+     </main>
+   </div>
   );
 };
 
