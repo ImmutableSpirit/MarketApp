@@ -24,7 +24,9 @@
     "pg": "^8.13.0",
     "pg-hstore": "^2.3.4",
     "react-router-dom": "^6.26.2",
-    "sequelize": "^6.37.4"
+    "sequelize": "^6.37.4",
+    "socket.io": "^4.8.0",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "eslint-plugin-react-hooks": "^4.6.2"

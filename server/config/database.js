@@ -17,4 +17,22 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   port: process.env.DB_PORT,
 });
 
+// Test database connection
+sequelize.authenticate()
+  .then(() => {
+    console.log('Database connected successfully!');
+  })
+  .catch(err => {
+    console.error('Database connection error:', err);
+  });
+
+// Sync models with the database
+sequelize.sync()
+  .then(() => {
+    console.log('Database synced successfully!');
+  })
+  .catch(err => {
+    console.error('Database sync error:', err);
+  });
+
 module.exports = sequelize;
