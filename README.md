@@ -20,6 +20,10 @@ MarketApp is a web application that provides user registration, login functional
 - **Database**: PostgreSQL
   - A powerful, open-source object-relational database system.
 
-## Demo
+## Demo Login
 
-![Description of GIF](https://github.com/ImmutableSpirit/MarketApp/blob/master/client-market-app/src/assets/marketApp-login.gif)
+![Logging in](https://github.com/ImmutableSpirit/MarketApp/blob/master/client-market-app/src/assets/marketApp-login.gif)
+
+## Demo Dashboard
+
+![Dashboard view](https://github.com/ImmutableSpirit/MarketApp/blob/master/client-market-app/src/assets/dashboard-01.png)
