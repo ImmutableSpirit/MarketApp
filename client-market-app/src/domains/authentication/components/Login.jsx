@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import logo from '../../../assets/logo-market-app.png';
+import { useUser } from '../context/UserContext';
 
 function Login() {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ function Login() {
   const [errors, setErrors] = useState([]);
   const [successMessages, setSuccessMessages] = useState([]);
   const [successKey, setSuccessKey] = useState(0);
+  const { setUser } = useUser();
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -45,6 +47,9 @@ function Login() {
       if (response.ok) {
         // Store the token in localStorage or a secure cookie
         localStorage.setItem('token', data.token);
+        //securelyStoreToken(token);
+        // Update app state with non-sensitive user info
+        setUser({ email: data.token.user.email });
         // Redirect to dashboard
         navigate('/dashboard');
       } else {

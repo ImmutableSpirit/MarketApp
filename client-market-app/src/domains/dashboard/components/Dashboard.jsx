@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import './Dashboard.css';
 import Chart from './Chart';
+import { useUser } from '../../authentication/context/UserContext';
 
 const Dashboard = () => {
   const [userEmail, setUserEmail] = useState("example@email.com");
   const [price, setPrice] = useState(null);
   const [socket, setSocket] = useState(null);
-  const ticker = 'EUR/USD'; // Example ticker
+  const ticker = 'EUR/USD'; // Using a currency pair as a default since forex has more uptime
+  const { user } = useUser(); // Get the user object from context
+  const email = user ? user.email : null; // Access email safely
 
   useEffect(() => {
     const newSocket = io('http://localhost:5000', {
@@ -69,7 +72,7 @@ const Dashboard = () => {
     <div className="dashboard">
      <header className="header">
        <div className="logo">MarketApp</div>
-       <div className="userInfo">Signed in as {userEmail}</div>
+       <div className="userInfo">Signed in as {email ? email : 'Guest'}</div>
      </header>
      <aside className="sidebar">
        {/* Sidebar content */}
