@@ -1,0 +1,90 @@
+/* Watchlist.css */
+.watchlist {
+    width: 300px;
+    margin: 20px auto;
+  }
+  
+  .watchlist-input {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .watchlist-input input {
+    flex-grow: 1;
+    padding: 5px;
+    font-size: 16px;
+  }
+  
+  .add-button, .remove-button {
+    width: 30px;
+    height: 30px;
+    background-color: grey;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-left: 5px;
+  }
+  
+  .watchlist-items {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .watchlist-items li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .ticker-span {
+    flex-grow: 1;
+    padding: 5px 10px;
+    background-color: rgb(92, 92, 92);
+    color: rgb(255, 255, 255);
+    border: 2px solid #07ddaf; /* Bright teal */
+    border-radius: 15px;
+    margin-right: 5px;
+  }
+
+  
+.ticker-span.selected {
+    background-color: #09f8c4;
+    color: rgb(39, 39, 39);
+    font-weight: bold;
+  }
+  
+  .ticker-span:hover {
+    background-color: #09f8c4;
+    color: rgb(39, 39, 39);
+  }
+
+  .watchlist-container {
+    max-height: 520px; /* Adjust this value based on your design */
+    min-height: 520px;
+    overflow-y: auto;
+    border: 1px solid #07ddaf;
+    border-radius: 5px;
+    padding: 16px;
+  }
+
+  /* Custom scrollbar styles */
+.watchlist-container::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .watchlist-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .watchlist-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  .watchlist-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }

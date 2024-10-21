@@ -4,7 +4,7 @@
     "header header"
     "main sidebar";
   grid-template-rows: 50px 1fr;
-  grid-template-columns: 1fr 250px;
+  grid-template-columns: 1fr 360px;
   height: 100vh; /* This ensures the dashboard takes up the full viewport height */
   overflow: hidden; /* This prevents any content from overflowing */
 }
