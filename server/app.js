@@ -18,6 +18,8 @@ const WebSocket = require('ws');
 const app = express();
 const port = process.env.PORT || 5000;
 
+let connections = 0;
+
 // Imported Middleware
 app.use(cors({
   origin: 'http://localhost:5173', // or whatever port your frontend is running on
@@ -54,82 +56,22 @@ app.io = io;
 marketDataService.connect(process.env.TWELVEDATA_API_KEY);
 console.log('API KEY FOR MARKET DATA:', process.env.TWELVEDATA_API_KEY);
 
-// Socket.IO connection handling
-/* io.on('connection', (socket) => {
-  console.log('New client connected');
+io.on('connection', (socket) => {
+  connections++;
+  console.log('MarketApp client connected to server');
+  console.log(`Current connections: ${connections}`);
+  console.log(`Number of connected clients: ${io.engine.clientsCount}`);
 
-  // Handle subscription requests
-  socket.on('subscribe', async (ticker) => {
-    console.log(`Subscribing to ticker: ${ticker}`);
-    // Add ticker to subscribers list
-    marketDataService.subscribeTicker(ticker);
-
-    // Fetch initial price and emit to client
-    try {
-      const data = await twelvedata.quotes.price(ticker);
-      console.log('Subscribed:', data);
-      socket.emit(`tickerUpdate:${ticker}`, data);
-    } catch (error) {
-      console.error('Error fetching ticker price:', error);
-    }
-  });
-
-  // Handle unsubscription requests
-  socket.on('unsubscribe', (ticker) => {
-    console.log(`Unsubscribing from ticker: ${ticker}`);
-    // Remove ticker from subscribers list
-    marketDataService.unsubscribeTicker(ticker);
-    console.log('Unsubscribed:', ticker);
-  });
-
+  // Handle disconnection for this socket
   socket.on('disconnect', () => {
-    console.log('Client disconnected');
+    connections--;
+    console.log('User disconnected');
+    console.log(`Current connections: ${connections}`);
+    console.log(`Number of connected clients: ${io.engine.clientsCount}`);
   });
-}); */
+});
 
 httpServer.listen(port, () => {
   console.log(`Server is running on port ${port}`);
   //connectToTwelveData();
 });
-
-
-
-
-const connectToTwelveData = () => {
-  console.log("Connecting to TwelveData...");
-  // Create a WebSocket connection to TwelveData API
-  const ws = new WebSocket(`wss://ws.twelvedata.com/v1/quotes/price?apikey=${process.env.TWELVEDATA_API_KEY}`);
-
-  ws.on('open', () => {
-    console.log('Connected to TwelveData WebSocket API');
-    // Subscribe to stock symbols
-    const subscribeMsg = {
-      action: 'subscribe',
-      params: {
-        symbols: 'EUR/USD'
-      }
-    };
-    
-    ws.send(JSON.stringify(subscribeMsg));
-  });
-
-  ws.on('message', (data) => {
-    try {
-      const jsonData = JSON.parse(data);
-      // Emit the price to all connected Socket.io clients
-      io.emit('Price', jsonData.price);
-      console.log(`Price: $${jsonData.price}`);
-    } catch (error) {
-      console.error('Error parsing JSON:', error);
-    }
-  });
-
-  ws.on('error', (error) => {
-    console.error('TwelveData WebSocket error:', error);
-  });
-
-  ws.on('close', () => {
-    console.log('Disconnected from TwelveData WebSocket API');
-  });
-  console.log('TwelveData connections configured.');
-}

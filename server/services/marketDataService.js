@@ -16,8 +16,8 @@ class MarketDataService {
 
     this.ws.on('message', (data) => {
       const parsedData = JSON.parse(data);
-      console.log("TwelveData reponse: ==============================")
-      console.log(parsedData);
+      //console.log("TwelveData reponse: ==============================")
+      //console.log(parsedData);
       this.notifySubscribers(parsedData);
     });
 
