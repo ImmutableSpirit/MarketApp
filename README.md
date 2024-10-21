@@ -27,3 +27,7 @@ MarketApp is a web application that provides user registration, login functional
 ## Demo Dashboard
 
 ![Dashboard view](https://github.com/ImmutableSpirit/MarketApp/blob/master/client-market-app/src/assets/dashboard-01.png)
+
+## Watchlist
+
+![Watchlist](https://github.com/ImmutableSpirit/MarketApp/blob/master/client-market-app/src/assets/watchlist-test.png)
