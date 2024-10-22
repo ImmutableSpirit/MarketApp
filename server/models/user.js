@@ -1,8 +1,14 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); 
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../config/database');
 
-const User = sequelize.define('User', {
-  // attributes
+class User extends Model {
+  static associate(models) {
+    // Define association here
+    User.hasMany(models.Ticker, { foreignKey: 'userId' });
+  }
+}
+
+User.init({
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -12,9 +18,10 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-}, {  
-  // other model options  
-  tableName: 'users', 
+}, {
+  sequelize,
+  modelName: 'User',
+  tableName: 'users',
 });
 
 module.exports = User;

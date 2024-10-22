@@ -1,5 +1,7 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
+const User = require('../models/user');
+const Ticker = require('../models/ticker');
 
 console.log('Current working directory:', process.cwd());
 console.log('DB_NAME:', process.env.DB_NAME);
@@ -35,4 +37,8 @@ sequelize.sync()
     console.error('Database sync error:', err);
   });
 
-module.exports = sequelize;
+  module.exports = {
+    sequelize,
+    User,
+    Ticker
+  };
