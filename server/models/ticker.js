@@ -1,29 +1,23 @@
-const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../config/database');
-const User = require('./user');
+// models/ticker.js
+const { DataTypes } = require('sequelize');
 
-class Ticker extends Model {}
-
-Ticker.init({
-  symbol: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: User,
-      key: 'id',
+module.exports = (sequelize) => {
+  const Ticker = sequelize.define('Ticker', {
+    symbol: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-  },
-}, {
-  sequelize,
-  modelName: 'Ticker',
-  tableName: 'tickers',
-});
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+    },
+  }, {
+    tableName: 'tickers',
+  });
 
-Ticker.belongsTo(User, { foreignKey: 'userId' });
-User.hasMany(Ticker, { foreignKey: 'userId' });
-
-module.exports = Ticker;
+  return Ticker;
+};
