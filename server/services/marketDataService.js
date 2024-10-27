@@ -1,4 +1,5 @@
 const WebSocket = require('ws');
+const { Ticker } = require('../config/database');
 
 class MarketDataService {
   constructor() {
@@ -74,6 +75,59 @@ class MarketDataService {
       this.subscribers.get(ticker).forEach(callback => callback(data));
     }
   }
+
+  async addTickerToDatabase(userId, ticker) {
+    try {
+      const [tickerRecord, created] = await Ticker.findOrCreate({
+        where: { userId, symbol: ticker },
+        defaults: { userId, symbol: ticker }
+      });
+
+      if (created) {
+        console.log(`Ticker ${ticker} added to database for user ${userId}`);
+      } else {
+        console.log(`Ticker ${ticker} already exists for user ${userId}`);
+      }
+
+      return tickerRecord;
+    } catch (error) {
+      console.error('Error adding ticker to database:', error);
+      throw error;
+    }
+  }
+
+  async removeTickerFromDatabase(userId, ticker) {
+    try {
+      const deletedCount = await Ticker.destroy({
+        where: { userId, symbol: ticker }
+      });
+
+      if (deletedCount > 0) {
+        console.log(`Ticker ${ticker} removed from database for user ${userId}`);
+      } else {
+        console.log(`Ticker ${ticker} not found in database for user ${userId}`);
+      }
+
+      return deletedCount;
+    } catch (error) {
+      console.error('Error removing ticker from database:', error);
+      throw error;
+    }
+  }
+
+  async getUserTickersFromDatabase(userId) {
+    try {
+      const tickers = await Ticker.findAll({
+        where: { userId },
+        attributes: ['symbol'],
+      });
+      return tickers.map(ticker => ticker.symbol);
+    } catch (error) {
+      console.error('Error fetching user tickers from database:', error);
+      throw error;
+    }
+  }
+
 }
 
 module.exports = new MarketDataService();

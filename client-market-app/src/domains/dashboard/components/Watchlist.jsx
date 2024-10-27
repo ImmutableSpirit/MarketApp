@@ -1,23 +1,37 @@
 // Watchlist.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Watchlist.css';
 
-const Watchlist = ({ selectedTicker, onSelectTicker }) => {
+const Watchlist = ({ selectedTicker, onSelectTicker, onAddTicker, onRemoveTicker, initialTickers  }) => {
   const [ticker, setTicker] = useState('');
-  const [watchlist, setWatchlist] = useState([]);  
+  const [watchlist, setWatchlist] = useState(initialTickers); 
 
-  const handleAddTicker = () => {
+  useEffect(() => {
+    setWatchlist(initialTickers);
+  }, [initialTickers]);
+
+  const handleAddTicker = async () => {
     if (ticker && !watchlist.includes(ticker.toUpperCase())) {
-      setWatchlist([...watchlist, ticker.toUpperCase()]);
-      setTicker('');
+      const success = await onAddTicker(ticker.toUpperCase());
+      if (success) {
+        setWatchlist([...watchlist, ticker.toUpperCase()]);
+        setTicker('');
+      } else {        
+        console.error('Failed to add ticker');
+      }
     }
   };
 
-  const handleRemoveTicker = (tickerToRemove) => {
-    setWatchlist(watchlist.filter(t => t !== tickerToRemove));
-    if (selectedTicker === tickerToRemove) {
-        onSelectTicker(null);
-    }
+  const handleRemoveTicker = async (tickerToRemove) => {
+    const success = await onRemoveTicker(tickerToRemove.toUpperCase());
+      if (success) {
+        setWatchlist(watchlist.filter(t => t !== tickerToRemove));      
+        if (selectedTicker === tickerToRemove) {
+          onSelectTicker(null);
+        }
+      } else {        
+        console.error('Failed to add ticker');
+      }
   };
 
   return (

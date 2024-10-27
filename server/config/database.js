@@ -1,5 +1,7 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
+const UserModel = require('../models/user');
+const TickerModel = require('../models/ticker');
 
 console.log('Current working directory:', process.cwd());
 console.log('DB_NAME:', process.env.DB_NAME);
@@ -26,6 +28,14 @@ sequelize.authenticate()
     console.error('Database connection error:', err);
   });
 
+const User = UserModel(sequelize);
+const Ticker = TickerModel(sequelize);
+
+// Set up associations
+User.hasMany(Ticker, { foreignKey: 'userId' });
+Ticker.belongsTo(User, { foreignKey: 'userId' });
+
+
 // Sync models with the database
 sequelize.sync()
   .then(() => {
@@ -35,4 +45,8 @@ sequelize.sync()
     console.error('Database sync error:', err);
   });
 
-module.exports = sequelize;
+  module.exports = {
+    sequelize,
+    User,
+    Ticker
+  };

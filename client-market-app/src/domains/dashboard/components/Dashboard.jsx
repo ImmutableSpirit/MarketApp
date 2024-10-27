@@ -11,11 +11,79 @@ const Dashboard = () => {
   const email = user ? user.email : null; // Access email safely
   const [selectedTicker, setSelectedTicker] = useState('EUR/USD');  // Using a currency pair as a default since forex has more uptime
   const [prices, setPrices] = useState({});
+  const [userTickers, setUserTickers] = useState([]);
 
   // Handler to be passed to Watchlist
   const handleSelectedTicker = (ticker) => {
-    setSelectedTicker(ticker);
-    // trigger any actions needed when a new ticker is selected
+    setSelectedTicker(ticker);    
+  };
+
+  // This method is also passed to the Watchlist
+  const addTickerToWatchlist = async (ticker) => {
+    try {
+      const encodedTicker = encodeURIComponent(ticker);
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5173/api/market-data/addTicker/${encodedTicker}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log('Ticker added successfully:', data);
+      return true;
+    } catch (error) {
+      console.error('Failed to add ticker:', error);
+      return false;
+    }
+  };
+
+  // This method is also passed to the Watchlist
+  const removeTickerFromWatchlist = async (ticker) => {
+    try {
+      const encodedTicker = encodeURIComponent(ticker);
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:5173/api/market-data/removeTicker/${encodedTicker}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log('Ticker removed successfully:', data);
+      return true;
+    } catch (error) {
+      console.error('Failed to remove ticker:', error);
+      return false;
+    }
+  };
+
+  const fetchUserTickers = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5173/api/market-data/tickers', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setUserTickers(data.tickers);
+    } catch (error) {
+      console.error('Failed to fetch user tickers:', error);
+    }
   };
 
   // Set up the initial connection (runs only once)
@@ -26,6 +94,7 @@ const Dashboard = () => {
         transports: ['websocket']
       });
       setSocket(newSocket);
+      fetchUserTickers();
 
       return () => {
         //newSocket.close();
@@ -41,9 +110,14 @@ const Dashboard = () => {
   
       const subscribeTicker = async () => {
         try {
+          const token = localStorage.getItem('token'); // Or however you're storing the token
           const response = await fetch(`/api/market-data/subscribe/${encodedTicker}`, { 
             method: 'POST',
-            credentials: 'include'
+            credentials: 'include',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
           });
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -104,6 +178,9 @@ const Dashboard = () => {
        <Watchlist 
           selectedTicker={selectedTicker} 
           onSelectTicker={handleSelectedTicker}
+          onAddTicker={addTickerToWatchlist}
+          onRemoveTicker={removeTickerFromWatchlist}
+          initialTickers={userTickers}
         />
      </aside>
      <main className="mainContent">      
