@@ -46,7 +46,8 @@ function Login() {
 
       if (response.ok) {
         // Store the token in localStorage or a secure cookie
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', data.token.token);
+        localStorage.setItem('user', data.token.user);
         //securelyStoreToken(token);
         // Update app state with non-sensitive user info
         setUser({ email: data.token.user.email });
