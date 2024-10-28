@@ -70,13 +70,12 @@ TWELVEDATA_API_KEY=<your TwelveData API key>
 - In the root directory, run:
 
 ``` npm install
-cd client && npm install
-cd ../server && npm install 
+npm install 
+cd client-market-app && npm install
 ```
 
 7. Start the application
 - In the client-market-app directory, run:
-
 ``` npm run dev ```
 - In the server directory, run:
 ``` node app.js ```
