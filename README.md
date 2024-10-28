@@ -85,3 +85,8 @@ This will start the frontend and backend servers.
 8. Access the application
 - Open your browser and navigate to http://localhost:5173 (or the port specified by Vite).
 
+9. Create a new login by entering an email, password, and clicking the Register button.
+10. Login with the newly created user.
+11. A default ticker of EUR/USD should start producing price updates soon after reaching the Dashboard.
+12. Add new symbols with the watchlist on the right hand side; select a symbol to subscribe to price updates.  The widget will update with the newly selected ticker symbol.
+
