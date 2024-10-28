@@ -38,8 +38,8 @@ Follow these steps to set up the project locally:
 1. Clone the repository
   
   ``` 
-  git clone https://github.com/yourusername/your-repo-name.git
-  cd your-repo-name 
+  git clone git@github.com:ImmutableSpirit/MarketApp.git
+  cd MarketApp
   ```
 
 2. Install PostgreSQL
