@@ -63,7 +63,7 @@ TWELVEDATA_API_KEY=<your TwelveData API key>
 - Replace <your PostgreSQL password> with the password you set during PostgreSQL installation.
 - Generate a secure random string for JWT_SECRET.
 5. Get a TwelveData API key
-- Sign up for a free plan at TwelveData.
+- Sign up for a free plan at TwelveData https://twelvedata.com/register
 - Obtain your API key from the dashboard.
 - Add this key to your .env file as TWELVEDATA_API_KEY.
 6. Install dependencies
