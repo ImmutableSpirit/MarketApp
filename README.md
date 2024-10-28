@@ -36,8 +36,11 @@ MarketApp is a web application that provides user registration, login functional
 
 Follow these steps to set up the project locally:
 1. Clone the repository
-  ``` git clone https://github.com/yourusername/your-repo-name.git
-cd your-repo-name ```
+  
+  ``` 
+  git clone https://github.com/yourusername/your-repo-name.git
+  cd your-repo-name 
+  ```
 
 2. Install PostgreSQL
 - Download and install PostgreSQL from the official website.
@@ -68,7 +71,8 @@ TWELVEDATA_API_KEY=<your TwelveData API key>
 
 ``` npm install
 cd client && npm install
-cd ../server && npm install ```
+cd ../server && npm install 
+```
 
 7. Start the application
 - In the client-market-app directory, run:
